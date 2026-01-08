@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sabi 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --light-pink: #ffe5ec;
+            --baby-pink: #ffc2d1;
+            --deep-pink: #ff85a1;
+            --white: #ffffff;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--light-pink);
+            color: #444;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .active { display: flex; }
+
+        /* --- SCREEN 1 --- */
+        .circle-img {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            border: 6px solid var(--white);
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: #eee; /* Shows grey if image is missing */
+        }
+
+        .input-box {
+            padding: 15px; border-radius: 30px; border: 2px solid var(--deep-pink);
+            width: 260px; text-align: center; outline: none; margin-bottom: 10px;
+        }
+
+        .hint-btn {
+            background: none; border: none; color: var(--deep-pink);
+            text-decoration: underline; cursor: pointer; font-size: 0.9rem;
+        }
+
+        /* --- SCREEN 2: POLAROID GALLERY --- */
+        #screen2 { background-color: var(--baby-pink); }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 10px;
+            max-width: 360px;
+            margin-top: 20px;
+        }
+
+        .frame {
+            background: white;
+            padding: 6px 6px 20px 6px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .frame img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes polaroidIn {
+            to { opacity: 1; transform: translateY(0) rotate(var(--r)); }
+        }
+
+        .top-row { grid-column: span 4; height: 100px; --r: -3deg; }
+        .mid-row { grid-column: span 12; height: 180px; --r: 0deg; }
+        .bot-row { grid-column: span 3; height: 80px; --r: 3deg; }
+
+        .drag-area {
+            width: 280px; height: 90px;
+            border: 3px dashed var(--white);
+            border-radius: 50px;
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 25px; margin-top: 30px;
+            cursor: pointer;
+        }
+
+        #key { font-size: 3rem; }
+        #lock { font-size: 3rem; opacity: 0.5; }
+
+        /* --- SCREEN 3: BLIND BOXES --- */
+        .bday-title { font-family: 'Fredoka One', cursive; color: var(--deep-pink); font-size: 1.8rem; }
+        .blind-box-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 20px; }
+        
+        .box-card {
+            background: var(--white); border-radius: 20px; padding: 15px;
+            min-height: 120px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        }
+        .box-card img { width: 100%; border-radius: 10px; display: none; }
+        .box-msg { font-size: 0.85rem; font-weight: 600; color: var(--deep-pink); display: none; margin-top: 8px; }
+    </style>
+</head>
+<body>
+
+    <audio id="m1" src="ENHYPEN - Too Close.mp3" loop></audio>
+    <audio id="m2" src="ENHYPEN - Polaroid Love.mp3" loop></audio>
+    <audio id="m3" src="ENHYPEN - Your Eyes Only.mp3" loop></audio>
+
+    <div id="screen1" class="screen active">
+        <img src="bdaycake.gif" class="circle-img" onerror="this.src='https://via.placeholder.com/150?text=Sabi'">
+        <h2 style="color: var(--deep-pink); font-family: 'Fredoka One';">Wait! Who are you?</h2>
+        <p>Type the secret keyword to enter:</p>
+        <input type="text" id="passInput" class="input-box" placeholder="What song?">
+        <br>
+        <button class="hint-btn" onclick="playHint()">Need a hint? Click me! make sure to listen to song till the end✨</button>
+        <p id="hintText" style="display:none; color: var(--deep-pink); font-weight: bold; margin: 10px 0;">It's an Enhypen song! 🎶</p>
+        <br>
+        <button onclick="unlockFirst()" style="background: var(--deep-pink); color: white; border: none; padding: 12px 40px; border-radius: 30px; font-weight: bold; cursor: pointer; margin-top: 10px;">Let me in! ✨</button>
+    </div>
+
+    <div id="screen2" class="screen">
+        <h1 style="font-family: 'Fredoka One'; color: white; margin: 0;">Happy Bday Sabi! 📸</h1>
+        <div class="gallery-container">
+            <div class="frame top-row" style="animation: polaroidIn 0.5s forwards 0.5s;"><img src="jungwon1.jpg"></div>
+            <div class="frame top-row" style="animation: polaroidIn 0.5s forwards 1s;"><img src="heeseung1.jpg"></div>
+            <div class="frame top-row" style="animation: polaroidIn 0.5s forwards 1.5s;"><img src="sunghoon1.jpg"></div>
+            <div class="frame mid-row" style="animation: polaroidIn 0.5s forwards 2s;"><img src="enhypen1.jpg"></div>
+            <div class="frame bot-row" style="animation: polaroidIn 0.5s forwards 2.5s;"><img src="jake1.jpg"></div>
+            <div class="frame bot-row" style="animation: polaroidIn 0.5s forwards 3s;"><img src="jay1.jpg"></div>
+            <div class="frame bot-row" style="animation: polaroidIn 0.5s forwards 3.5s;"><img src="sunoo1.jpg"></div>
+            <div class="frame bot-row" style="animation: polaroidIn 0.5s forwards 4s;"><img src="niki1.jpg"></div>
+        </div>
+
+        <p style="color: white; font-weight: bold; margin-top: 25px;">Tap the Key to Unlock! 🗝️</p>
+        <div class="drag-area" onclick="goToFinal()">
+            <div id="key">🔑</div>
+            <div id="lock">🔒</div>
+        </div>
+    </div>
+
+    <div id="screen3" class="screen">
+        <h1 class="bday-title">Treasure Unlocked! 🎂</h1>
+        <p>May your each day be filled with happiness and good lucks. ✨</p>
+        <div class="blind-box-grid" id="boxGrid"></div>
+    </div>
+
+<script>
+    const music1 = document.getElementById('m1');
+    const music2 = document.getElementById('m2');
+    const music3 = document.getElementById('m3');
+
+    // Function to play hint and start music
+    function playHint() {
+        document.getElementById('hintText').style.display = 'block';
+        music1.play().catch(e => console.log("Music autostart prevented until first click."));
+    }
+
+    function unlockFirst() {
+        const val = document.getElementById('passInput').value.toLowerCase().trim();
+        if(val === "too close") {
+            music1.pause();
+            music2.play();
+            showScreen('screen2');
+        } else {
+            // Also triggers music if they didn't click hint
+            music1.play();
+            alert("Wrong word! Hint: It's the song playing! 💕");
+        }
+    }
+
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function goToFinal() {
+        music2.pause();
+        music3.play();
+        showScreen('screen3');
+        renderBoxes();
+    }
+
+    const data = [
+        {img: 'jungwon.gif', msg: 'jungwon power pyoong !! thankyou for being born 🌸'},
+        {img: 'heeseung.gif', msg: 'heeseung power pyoongg!! stay healthy and happy✨'},
+        {img: 'jake.gif', msg: 'jake power pyoong!! best of luck for this year too  💖'},
+        {img: 'niki.gif', msg: 'niki power pyoong!! love u alwayss😊'},
+        {img: 'sunghoon.gif', msg: 'sunghoon power pyoong!! more achievements and improvements this year too 🪄'},
+        {img: 'jay.gif', msg: 'jay pyoong!! send me cake 🍰'},
+        {img: 'sunoo.gif', msg: 'sunoo pyoong !! lets gooooo💐'}
+    ];
+
+    function renderBoxes() {
+        const grid = document.getElementById('boxGrid');
+        grid.innerHTML = '';
+        data.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'box-card';
+            card.innerHTML = `<div id="gift-${i}" style="font-size:2.5rem;">🎁</div><img src="${item.img}" id="img-${i}"><div class="box-msg" id="msg-${i}">${item.msg}</div>`;
+            card.onclick = () => {
+                document.getElementById(`gift-${i}`).style.display = 'none';
+                document.getElementById(`img-${i}`).style.display = 'block';
+                document.getElementById(`msg-${i}`).style.display = 'block';
+            };
+            grid.appendChild(card);
+        });
+    }
+</script>
+</body>
+</html>
